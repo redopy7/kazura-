@@ -43,7 +43,7 @@ app.get('/get-key', async (req, res) => {
   const isValidReferrer = validReferrers.some(validReferrer => referrer.includes(validReferrer));
 
   if (!isValidReferrer || token !== process.env.TOKEN) {
-    return res.redirect('https://paste-drop.com/paste/Xlr2QrR1td');
+    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
   } else {
     return res.redirect('https://paste-drop.com/paste/KalitorKey');
   }
