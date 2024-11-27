@@ -20,18 +20,25 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
-let bypassBlocklist = new Set();
-
 function isBrowser(userAgent) {
   const browserRegex = /Mozilla\/5\.0.*(Chrome|CriOS|Firefox|FxiOS|Safari|Opera|OPR|Edg|Edge|SamsungBrowser|DuckDuckGo|Brave|Vivaldi|Yandex|QQBrowser|Puffin|Sleipnir|Webkit|Silk|Maxthon|UCBrowser|Baidu|KAIOS)/i;
   return browserRegex.test(userAgent);
+}
+
+function isBypassService(referrer) {
+  const bypassServices = [
+    'bypass.city',
+    'thebypasser.com',
+    'bypassunlock.com',
+    'bypass.vip',
+  ];
+  return bypassServices.some(service => referrer.includes(service));
 }
 
 app.get('/get-key', async (req, res) => {
   const referrer = req.get('referer') || '';
   const userAgent = req.headers['user-agent'] || '';
   const token = req.query.t;
-  const userIp = req.ip;
 
   console.log('Debugging Start:');
   console.log('Referrer:', referrer || 'No referrer provided');
@@ -40,8 +47,8 @@ app.get('/get-key', async (req, res) => {
   console.log('Token in environment:', process.env.TOKEN);
   console.log('Debugging End');
 
-  if (bypassBlocklist.has(userIp)) {
-    console.log('Blocked user attempted access:', userIp);
+  if (isBypassService(referrer)) {
+    console.log('Bypass service detected. Redirecting to the wrong link.');
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
   }
 
@@ -54,19 +61,17 @@ app.get('/get-key', async (req, res) => {
     'linkvertise.com',
     'pastebin.com',
     'paste-drop.com',
+    'kazura.vercel.app', 
   ];
 
-  const isValidReferrer = !referrer || validReferrers.some((validReferrer) => referrer.includes(validReferrer));
-  
+  const isValidReferrer = validReferrers.some((validReferrer) => referrer.includes(validReferrer));
   if (!isValidReferrer) {
     console.log('Invalid referrer detected:', referrer);
-    bypassBlocklist.add(userIp);
-    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
+    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); 
   }
 
   if (token !== process.env.TOKEN) {
     console.log('Invalid token detected:', token);
-    bypassBlocklist.add(userIp);
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
   }
 
