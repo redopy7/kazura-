@@ -25,14 +25,6 @@ body {
     --button-shadow: rgba(255, 255, 255, 0.3);
 }
 
-.light-mode {
-    --background-color: #f7f7f7;
-    --text-color: #333;
-    --button-color: #4b555e;
-    --button-hover-color: #34383d;
-    --button-shadow: rgba(0, 0, 0, 0.2);
-}
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -108,28 +100,5 @@ p {
 
 .discord-btn:hover {
     background: #404EED;
-    box-shadow: 0 6px 12px var(--button-shadow);
-}
-
-.theme-toggle {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-}
-
-.toggle-btn {
-    background: red;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 12px;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 8px var(--button-shadow);
-}
-
-.toggle-btn:hover {
-    background: red;
     box-shadow: 0 6px 12px var(--button-shadow);
 }
