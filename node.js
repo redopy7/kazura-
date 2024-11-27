@@ -49,7 +49,6 @@ app.get('/get-key', async (req, res) => {
     'linkvertise.com',
     'pastebin.com',
     'paste-drop.com',
-    'kazura.vercel.app',
   ];
 
   const isValidReferrer = !referrer || validReferrers.some((validReferrer) => referrer.includes(validReferrer));
