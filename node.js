@@ -30,12 +30,17 @@ app.get('/get-key', async (req, res) => {
   const userAgent = req.headers['user-agent'] || '';
   const token = req.query.t;
 
-  console.log('Referrer:', referrer);
-  console.log('Token provided:', token);
+  // Log everything for debugging
+  console.log('Debugging Start:');
+  console.log('Referrer:', referrer || 'No referrer provided');
+  console.log('User-Agent:', userAgent || 'No User-Agent provided');
+  console.log('Token provided:', token || 'No token provided');
   console.log('Token in environment:', process.env.TOKEN);
+  console.log('Debugging End');
 
   // Validate browser
   if (!isBrowser(userAgent)) {
+    console.log('Browser not detected.');
     return res.status(403).json({ status: 'error', message: 'Forbidden: Browser not detected!' });
   }
 
@@ -47,21 +52,20 @@ app.get('/get-key', async (req, res) => {
     'kazura.vercel.app',
   ];
 
-  const isValidReferrer =
-    !referrer || validReferrers.some((validReferrer) => referrer.includes(validReferrer));
-
+  const isValidReferrer = !referrer || validReferrers.some((validReferrer) => referrer.includes(validReferrer));
   if (!isValidReferrer) {
-    console.log('Invalid referrer:', referrer);
+    console.log('Invalid referrer detected:', referrer);
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
   }
 
   // Validate token
   if (token !== process.env.TOKEN) {
-    console.log('Invalid token:', token);
+    console.log('Invalid token detected:', token);
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
   }
 
   // Success case
+  console.log('All validations passed. Redirecting to correct link.');
   return res.redirect('https://paste-drop.com/paste/KalitorKey'); // Correct link
 });
 
