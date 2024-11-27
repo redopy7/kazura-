@@ -30,24 +30,35 @@ app.get('/get-key', async (req, res) => {
   const userAgent = req.headers['user-agent'] || '';
   const token = req.query.t;
 
+  console.log('Referrer:', referrer);
+  console.log('Token provided:', token);
+  console.log('Token in environment:', process.env.TOKEN);
+
   if (!isBrowser(userAgent)) {
     return res.status(403).json({ status: 'error', message: 'Forbidden: Browser not detected!' });
   }
-
+  
   const validReferrers = [
-  'linkvertise.com',
-  'pastebin.com',
-  'paste-drop.com',
-  'kazura.vercel.app',
+    'linkvertise.com',
+    'pastebin.com',
+    'paste-drop.com',
+    'kazura.vercel.app',
   ];
 
-  const isValidReferrer = validReferrers.some(validReferrer => referrer.includes(validReferrer));
+  const isValidReferrer =
+    !referrer || validReferrers.some((validReferrer) => referrer.includes(validReferrer));
 
-  if (!isValidReferrer || token !== process.env.TOKEN) {
-    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
-  } else {
-    return res.redirect('https://paste-drop.com/paste/KalitorKey');
+  if (!isValidReferrer) {
+    console.log('Invalid referrer:', referrer);
+    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
   }
+
+  // Valid token
+  if (token !== process.env.TOKEN) {
+    console.log('Invalid token:', token);
+    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
+  
+  return res.redirect('https://paste-drop.com/paste/KalitorKey'); // Correct link
 });
 
 const PORT = process.env.PORT || 3000;
