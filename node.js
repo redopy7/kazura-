@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
-const path = require('path'); // Ensure 'path' module is used
+const path = require('path'); // Add path module to manage file paths
 
 if (!process.env.TOKEN) {
   console.error('Missing required environment variables');
@@ -10,6 +10,9 @@ if (!process.env.TOKEN) {
 
 const app = express();
 app.use(express.json());
+
+// Serve static files from the 'web' directory
+app.use(express.static(path.join(__dirname, 'web')));
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -80,16 +83,9 @@ app.get('/get-key', async (req, res) => {
   return res.redirect('https://paste-drop.com/paste/KalitorKey');
 });
 
-// Serve the index.html file directly
+// Serve the index.html at the root URL
 app.get('/', (req, res) => {
-  const filePath = path.join(__dirname, 'index.html'); // Path to index.html file
-  console.log('Serving index.html from path:', filePath); // For debugging
-  res.sendFile(filePath, (err) => {
-    if (err) {
-      console.error('Error sending index.html:', err);
-      res.status(500).send('Error occurred while loading the page.');
-    }
-  });
+  res.sendFile(path.join(__dirname, 'web', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
