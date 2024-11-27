@@ -34,10 +34,12 @@ app.get('/get-key', async (req, res) => {
   console.log('Token provided:', token);
   console.log('Token in environment:', process.env.TOKEN);
 
+  // Validate browser
   if (!isBrowser(userAgent)) {
     return res.status(403).json({ status: 'error', message: 'Forbidden: Browser not detected!' });
   }
-  
+
+  // Validate referrer
   const validReferrers = [
     'linkvertise.com',
     'pastebin.com',
@@ -53,11 +55,13 @@ app.get('/get-key', async (req, res) => {
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
   }
 
-  // Valid token
+  // Validate token
   if (token !== process.env.TOKEN) {
     console.log('Invalid token:', token);
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); // Wrong link
-  
+  }
+
+  // Success case
   return res.redirect('https://paste-drop.com/paste/KalitorKey'); // Correct link
 });
 
