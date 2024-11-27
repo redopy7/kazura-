@@ -1,6 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
+const path = require('path'); // Add path module to manage file paths
 
 if (!process.env.TOKEN) {
   console.error('Missing required environment variables');
@@ -9,6 +10,8 @@ if (!process.env.TOKEN) {
 
 const app = express();
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -77,6 +80,10 @@ app.get('/get-key', async (req, res) => {
 
   console.log('All validations passed. Redirecting to correct link.');
   return res.redirect('https://paste-drop.com/paste/KalitorKey');
+});
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
