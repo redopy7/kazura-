@@ -59,7 +59,7 @@ app.get('/get-key', async (req, res) => {
 
   const validReferrers = [
     'linkvertise.com',
-    'pastebin.com',
+    'loot-link.com',
     'paste-drop.com',
     'kazura.vercel.app', 
   ];
