@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
-const path = require('path'); // Add path module to manage file paths
+const path = require('path');
 
 if (!process.env.TOKEN) {
   console.error('Missing required environment variables');
@@ -10,8 +10,6 @@ if (!process.env.TOKEN) {
 
 const app = express();
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 const limiter = rateLimit({
   windowMs: 1 * 60 * 1000,
@@ -83,8 +81,9 @@ app.get('/get-key', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.e
+nv.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
