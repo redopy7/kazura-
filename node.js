@@ -64,8 +64,10 @@ app.get('/get-key', async (req, res) => {
   const validReferrers = [
     'linkvertise.com',
     'loot-link.com',
+    'lootdest.org',
+    'lootlabs.gg',
     'paste-drop.com',
-    'kazura.vercel.app', 
+    'kazura.vercel.app',
   ];
 
   const isValidReferrer = validReferrers.some((validReferrer) => referrer.includes(validReferrer));
