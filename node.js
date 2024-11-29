@@ -77,7 +77,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/tutorial', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'tutorial.html'));
+  res.sendFile(path.join(__dirname, 'web', 'Tutorial.html'));
 });
 
 const PORT = process.env.PORT || 3000;
