@@ -85,7 +85,7 @@ p {
 
 .button:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(85, 85, 85, 0.5);
+    box-shadow: 0 8px 15px rgba(85, 85, 85, 0.5);
 }
 
 .other-btn {
@@ -104,7 +104,7 @@ p {
 
 .other-btn:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(88, 101, 242, 0.5);
+    box-shadow: 0 8px 15px rgba(88, 101, 242, 0.5);
 }
 
 @media (min-width: 768px) {
@@ -137,7 +137,7 @@ p {
         margin-bottom: 40px; 
     }
 
-    .button, .second-button, .other-btn {
+    .button, .other-btn {
         font-size: 45px; 
         padding: 20px; 
         min-width: 150px; 
@@ -148,21 +148,26 @@ p {
         display: flex;
         justify-content: center;
         align-items: center;
-        background: linear-gradient(135deg, #555555, #333333);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .button {
+        box-shadow: 0 15px 30px rgba(69, 90, 100, 0.6);
     }
 
     .button:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(85, 85, 85, 0.6);
+        box-shadow: 0 15px 30px rgba(69, 90, 100, 0.6);
     }
-    
+
     .other-btn {
-        background: linear-gradient(135deg, #7289DA, #5865F2);
+        background: linear-gradient(135deg, #0d47a1, #536dfe);
+        box-shadow: 0 15px 30px rgba(83, 109, 254, 0.6);
         margin-bottom: 15px;
     }
 
     .other-btn:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 30px rgba(88, 101, 242, 0.6); 
+        box-shadow: 0 15px 30px rgba(83, 109, 254, 0.6);
     }
+}
