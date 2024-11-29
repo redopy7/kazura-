@@ -1,7 +1,7 @@
 const express = require('express');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
-const path = require('path'); // Add path module to manage file paths
+const path = require('path');
 
 if (!process.env.TOKEN) {
   console.error('Missing required environment variables');
@@ -11,7 +11,6 @@ if (!process.env.TOKEN) {
 const app = express();
 app.use(express.json());
 
-// Serve static files from the 'web' directory
 app.use(express.static(path.join(__dirname, 'web')));
 
 const limiter = rateLimit({
@@ -44,20 +43,11 @@ app.get('/get-key', async (req, res) => {
   const userAgent = req.headers['user-agent'] || '';
   const token = req.query.t;
 
-  console.log('Debugging Start:');
-  console.log('Referrer:', referrer || 'No referrer provided');
-  console.log('User-Agent:', userAgent || 'No User-Agent provided');
-  console.log('Token provided:', token || 'No token provided');
-  console.log('Token in environment:', process.env.TOKEN);
-  console.log('Debugging End');
-
   if (isBypassService(referrer)) {
-    console.log('Bypass service detected. Redirecting to the wrong link.');
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
   }
 
   if (!isBrowser(userAgent)) {
-    console.log('Browser not detected.');
     return res.status(403).json({ status: 'error', message: 'Forbidden: Browser not detected!' });
   }
 
@@ -72,22 +62,22 @@ app.get('/get-key', async (req, res) => {
 
   const isValidReferrer = validReferrers.some((validReferrer) => referrer.includes(validReferrer));
   if (!isValidReferrer) {
-    console.log('Invalid referrer detected:', referrer);
-    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n'); 
-  }
-
-  if (token !== process.env.TOKEN) {
-    console.log('Invalid token detected:', token);
     return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
   }
 
-  console.log('All validations passed. Redirecting to correct link.');
+  if (token !== process.env.TOKEN) {
+    return res.redirect('https://paste-drop.com/paste/qeo2rxi76n');
+  }
+
   return res.redirect('https://paste-drop.com/paste/KalitorKey');
 });
 
-// Serve the index.html at the root URL
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'web', 'index.html'));
+});
+
+app.get('/tutorial', (req, res) => {
+  res.sendFile(path.join(__dirname, 'web', 'tutorial.html'));
 });
 
 const PORT = process.env.PORT || 3000;
